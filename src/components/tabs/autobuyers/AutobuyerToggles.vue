@@ -33,7 +33,7 @@ export default {
     update() {
       this.isDoomed = Pelle.isDoomed;
       this.autobuyersOn = player.auto.autobuyersOn;
-      this.showContinuum = Laitela.isUnlocked;
+      this.showContinuum = Laitela.continuumUnlocked;
       this.disableContinuum = player.auto.disableContinuum;
       this.allAutobuyersDisabled = Autobuyers.unlocked.every(autobuyer => !autobuyer.isActive);
     },
@@ -60,15 +60,7 @@ export default {
     >
       {{ allAutobuyersDisabled ? "Enable" : "Disable" }} all autobuyers
     </PrimaryButton>
-    <span v-if="isDoomed">
-      <PrimaryButton
-        v-if="showContinuum"
-        class="o-primary-btn--subtab-option"
-      >
-        Continuum is disabled
-      </PrimaryButton>
-    </span>
-    <span v-else>
+    <span>
       <PrimaryToggleButton
         v-if="showContinuum"
         v-model="disableContinuum"

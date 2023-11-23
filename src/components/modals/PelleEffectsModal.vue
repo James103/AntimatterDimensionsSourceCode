@@ -55,7 +55,8 @@ export default {
         "Infinity Upgrades cannot be charged",
         "Triad Studies and Space Theorems are disabled",
         "Imaginary Upgrades are disabled excluding those relating to DMD's and Celestial unlocks",
-        "Continuum and Singularity rewards are disabled"
+        "Continuum is NOT disabled, but extra purchases have no effect",
+        "Singularity rewards are disabled"
       ];
     }
   }

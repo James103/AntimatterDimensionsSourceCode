@@ -49,7 +49,7 @@ export const infinityChallenges = [
     id: 4,
     description: () =>
       `only the latest bought Antimatter Dimension's production is normal. All other Antimatter Dimensions
-      produce less (${formatPow(0.25, 2, 2)}).`,
+      produce less (${formatPow(0.25, 2, 2)}). Continuum gives ${formatPercents(0.17)} more purchases.`,
     goal: DC.E13000,
     isQuickResettable: true,
     effect: 0.25,
@@ -117,12 +117,11 @@ export const infinityChallenges = [
   {
     id: 8,
     description: () =>
-      `AD production rapidly and continually drops over time. Purchasing Antimatter Dimension or Tickspeed
-        upgrades sets production back to ${formatPercents(1)} before it starts dropping again.`,
+      `AD production slowly and continually drops over time.`,
     goal: DC.E27000,
     isQuickResettable: true,
     effect: () => DC.D0_8446303389034288.pow(
-      Math.max(0, player.records.thisInfinity.time - player.records.thisInfinity.lastBuyTime)),
+      Math.max(0, player.records.thisInfinity.time / 1000)),
     reward: {
       description:
         "You get a multiplier to AD 2-7 based on 1st and 8th AD multipliers.",

@@ -719,7 +719,7 @@ export const celestialNavigation = {
           const galaxies = player.requirementChecks.infinity.noAD8 ? player.galaxies : 0;
           return [
             "V's unlock Achievement",
-            `Reach ${formatInt(galaxies)} / ${formatInt(goal)} Antimatter Galaxies without buying`,
+            `Reach ${formatInt(galaxies)} / ${formatInt(goal)} Antimatter Galaxies without having any`,
             "8th Antimatter Dimensions in your current Infinity"
           ];
         },

@@ -6,56 +6,68 @@ export const normalAchievements = [
     name: "You gotta start somewhere",
     description: "Buy a 1st Antimatter Dimension.",
     checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+    get reward() {
+      return Pelle.isDoomed
+        ? "Convert Antimatter Dimensions to Continuum (Not Shattered by Pelle)"
+        : "Convert Antimatter Dimensions to Continuum.";
+    },
   },
   {
     id: 12,
     name: "100 antimatter is a lot",
-    description: "Buy a 2nd Antimatter Dimension.",
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+    description: "Get a 2nd Antimatter Dimension.",
+    checkRequirement: () => AntimatterDimension(2).totalAmount.gt(0),
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
   {
     id: 13,
     name: "Half life 3 CONFIRMED",
-    description: "Buy a 3rd Antimatter Dimension.",
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+    description: "Get a 3rd Antimatter Dimension.",
+    checkRequirement: () => AntimatterDimension(3).totalAmount.gt(0),
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
   {
     id: 14,
     name: "L4D: Left 4 Dimensions",
-    description: "Buy a 4th Antimatter Dimension.",
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+    description: "Get a 4th Antimatter Dimension.",
+    checkRequirement: () => AntimatterDimension(4).totalAmount.gt(0),
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
   {
     id: 15,
     name: "5 Dimension Antimatter Punch",
-    description: "Buy a 5th Antimatter Dimension.",
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+    description: "Get a 5th Antimatter Dimension.",
+    checkRequirement: () => AntimatterDimension(5).totalAmount.gt(0),
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
   {
     id: 16,
     name: "We couldn't afford 9",
     get description() {
       return Enslaved.isRunning
-        ? "Buy a 6th Antimatter Dimension (they never amount to anything)"
-        : "Buy a 6th Antimatter Dimension.";
+        ? "Get a 6th Antimatter Dimension (they never amount to anything)"
+        : "Get a 6th Antimatter Dimension.";
     },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+    checkRequirement: () => AntimatterDimension(6).totalAmount.gt(0),
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
   {
     id: 17,
     name: "Not a luck related achievement",
-    description: "Buy a 7th Antimatter Dimension.",
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+    description: "Get a 7th Antimatter Dimension.",
+    checkRequirement: () => AntimatterDimension(7).totalAmount.gt(0),
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
   {
     id: 18,
     name: "90 degrees to infinity",
     get description() {
       return Enslaved.isRunning
-        ? "Buy an 8th Antimatter Dimension (don't get used to it)"
-        : "Buy an 8th Antimatter Dimension.";
+        ? "Get an 8th Antimatter Dimension (don't get used to it)"
+        : "Get an 8th Antimatter Dimension.";
     },
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+    checkRequirement: () => AntimatterDimension(8).totalAmount.gt(0),
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER
   },
   {
     id: 21,
@@ -76,8 +88,8 @@ export const normalAchievements = [
   {
     id: 23,
     name: "The 9th Dimension is a lie",
-    get description() { return `Have exactly ${formatInt(99)} 8th Antimatter Dimensions.`; },
-    checkRequirement: () => AntimatterDimension(8).amount.eq(99),
+    get description() { return `Have at least ${formatInt(99)} 8th Antimatter Dimensions.`; },
+    checkRequirement: () => AntimatterDimension(8).totalAmount.gte(99),
     get reward() { return `8th Antimatter Dimensions are ${formatPercents(0.1)} stronger.`; },
     effect: 1.1
   },
@@ -113,10 +125,10 @@ export const normalAchievements = [
     id: 28,
     name: "There's no point in doing that...",
     get description() {
-      return `Buy a single 1st Antimatter Dimension when you have over ${format(DC.E150)} of them.`;
+      return `Keep gaining 1st Antimatter Dimensions when you have over ${format(DC.E150)} of them.`;
     },
     checkRequirement: () => AntimatterDimension(1).amount.exponent >= 150,
-    checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     get reward() { return `1st Antimatter Dimensions are ${formatPercents(0.1)} stronger.`; },
     effect: 1.1
   },
@@ -226,14 +238,14 @@ export const normalAchievements = [
   },
   {
     id: 43,
-    name: "How the antitables have turned..",
+    name: "How the antitables have anti-turned..",
     description:
-      "Get the 8th Antimatter Dimension multiplier to be highest, 7th Antimatter Dimension multiplier " +
-      " second highest, etc.",
+      "Get the 8th Antimatter Dimension multiplier to be lowest, 7th Antimatter Dimension multiplier " +
+      " second lowest, etc.",
     checkRequirement: () => {
       const multipliers = Array.range(1, 8).map(tier => AntimatterDimension(tier).multiplier);
       for (let i = 0; i < multipliers.length - 1; i++) {
-        if (multipliers[i].gte(multipliers[i + 1])) return false;
+        if (multipliers[i].lte(multipliers[i + 1])) return false;
       }
       return true;
     },
@@ -451,11 +463,10 @@ export const normalAchievements = [
     id: 71,
     name: "ERROR 909: Dimension not found",
     description:
-      `Get to Infinity with only a single 1st Antimatter Dimension without Dimension Boosts
+      `Get to Infinity without Dimension Boosts
       or Antimatter Galaxies, while in the 2nd Antimatter Dimension Autobuyer Challenge.`,
     checkRequirement: () =>
       NormalChallenge(2).isOnlyActiveChallenge &&
-      AntimatterDimension(1).amount.eq(1) &&
       DimBoost.purchasedBoosts === 0 &&
       player.galaxies === 0,
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
@@ -882,11 +893,11 @@ export const normalAchievements = [
     id: 125,
     name: "Like feasting on a behind",
     get description() {
-      return `Reach ${format(DC.E90)} Infinity Points without having any Infinities
-      or any 1st Antimatter Dimensions in your current Eternity.`;
+      return `Reach ${format(DC.E90)} Infinity Points and ${format(1e9)} Infinities
+      with some 1st Antimatter Dimensions in your current Eternity.`;
     },
     checkRequirement: () => Currency.infinityPoints.exponent >= 90 &&
-      player.requirementChecks.eternity.noAD1 && Currency.infinities.eq(0),
+      !player.requirementChecks.eternity.noAD1 && Currency.infinities.gte(1e9),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     reward: "Infinity Point multiplier based on time spent this Infinity.",
     effect() {
@@ -1110,7 +1121,7 @@ export const normalAchievements = [
     name: "You really didn't need it anyway",
     get description() {
       return `Get ${formatInt(800)} Antimatter Galaxies without
-      buying 8th Antimatter Dimensions in your current Infinity.`;
+      having any 8th Antimatter Dimensions in your current Infinity.`;
     },
     checkRequirement: () => player.galaxies >= 800 && player.requirementChecks.infinity.noAD8,
     checkEvent: GAME_EVENT.GALAXY_RESET_AFTER,

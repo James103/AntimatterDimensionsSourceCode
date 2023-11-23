@@ -97,7 +97,8 @@ export const normalChallenges = [
     legacyId: 5,
     isQuickResettable: true,
     description: () => `whenever you buy Tickspeed upgrades or ${formatInt(10)} of an Antimatter Dimension, ` +
-      "everything else of equal cost will increase to its next cost step.",
+      "everything else of equal cost will increase to its next cost step. " +
+      `Continuum gives ${formatPercents(0.1)} less purchases.`,
     name: "Tickspeed Autobuyer",
     reward: "Upgradeable Tickspeed Autobuyer",
     lockedAt: DC.D0,

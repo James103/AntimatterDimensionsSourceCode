@@ -22,15 +22,15 @@ const tutorialStates = [
   },
   {
     id: TUTORIAL_STATE.TICKSPEED,
-    condition: () => AntimatterDimension(2).bought > 0
+    condition: () => AntimatterDimension(2).totalAmount.gt(0)
   },
   {
     id: TUTORIAL_STATE.DIMBOOST,
-    condition: () => AntimatterDimension(4).amount.gte(20)
+    condition: () => AntimatterDimension(4).totalAmount.gte(20)
   },
   {
     id: TUTORIAL_STATE.GALAXY,
-    condition: () => AntimatterDimension(8).amount.gte(80)
+    condition: () => AntimatterDimension(8).totalAmount.gte(80)
   },
   {
     id: TUTORIAL_STATE.AUTOMATOR,
@@ -70,6 +70,7 @@ export const Tutorial = {
     ui.view.tutorialState++;
     player.tutorialActive = true;
     ui.view.tutorialActive = true;
+    Tutorial.turnOffEffect(TUTORIAL_STATE.TICKSPEED);
   },
 
   tutorialLoop() {

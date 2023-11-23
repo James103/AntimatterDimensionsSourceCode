@@ -171,9 +171,7 @@ export const imaginaryUpgrades = [
     // - Purchasing any ID (edge case: this is acceptable for ID2-8 inside EC2 or EC10)
     // - Purchasing any TD with any amount of EC7 completions (edge case: acceptable within EC1 or EC10)
     // - Entering EC7 with any amount of purchased TD
-    description: () => `${
-      Pelle.isDoomed ? "Unlock" : "Convert Antimatter Dimensions to Continuum and unlock"
-    } Lai'tela, Celestial of Dimensions`,
+    description: "Unlock Lai'tela, Celestial of Dimensions",
   },
   {
     name: "Massless Momentum",

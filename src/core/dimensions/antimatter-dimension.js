@@ -179,7 +179,6 @@ function applyNDPowers(mult, tier) {
 
 function onBuyDimension(tier) {
   if (tier === 1) Tutorial.turnOffEffect(TUTORIAL_STATE.DIM1);
-  if (tier === 2) Tutorial.turnOffEffect(TUTORIAL_STATE.DIM2);
   Achievement(10 + tier).unlock();
   Achievement(23).tryUnlock();
 
@@ -665,6 +664,9 @@ export const AntimatterDimensions = {
     }
     if (AntimatterDimension(1).amount.gt(0)) {
       player.requirementChecks.eternity.noAD1 = false;
+    }
+    if (AntimatterDimension(8).totalAmount.gt(0)) {
+      player.requirementChecks.infinity.noAD8 = false;
     }
     AntimatterDimension(1).produceCurrency(Currency.antimatter, diff);
     if (NormalChallenge(12).isRunning) {

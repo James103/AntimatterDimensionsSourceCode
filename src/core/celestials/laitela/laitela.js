@@ -32,10 +32,10 @@ export const Laitela = {
     return Laitela.maxAllowedDimension === 0;
   },
   get continuumUnlocked() {
-    return ImaginaryUpgrade(15).isBought && !Pelle.isDisabled("continuum");
+    return Achievement(11).isUnlocked;
   },
   get continuumActive() {
-    return this.continuumUnlocked && !player.auto.disableContinuum && !Pelle.isDisabled("continuum");
+    return this.continuumUnlocked && !player.auto.disableContinuum;
   },
   setContinuum(x) {
     player.auto.disableContinuum = !x;
@@ -45,8 +45,12 @@ export const Laitela = {
     }
   },
   get matterExtraPurchaseFactor() {
-    return (1 + 0.5 * Math.pow(Decimal.pLog10(Currency.darkMatter.max) / 50, 0.4) *
+    if (Pelle.isDoomed) return 1;
+    const factor = (1 + 0.5 * Math.pow(Decimal.pLog10(Currency.darkMatter.max) / 50, 0.4) *
       (1 + SingularityMilestone.continuumMult.effectOrDefault(0)));
+    if (NormalChallenge(9).isRunning) return factor * 0.9;
+    if (InfinityChallenge(4).isRunning) return factor * 1.17;
+    return factor;
   },
   get realityReward() {
     return Math.clampMin(Math.pow(100, this.difficultyTier) *
