@@ -58,14 +58,14 @@ export default {
     },
     timeEstimate() {
       if (!this.hasTimeEstimate || !this.hasRemnants) return null;
-      if (this.notAffordable) return "Never affordable due to Generated Galaxy cap";
+      if (this.notAffordable) return "Never affordable due to Generated Continuum cap";
       return this.currentTimeEstimate;
     },
     hasTimeEstimate() {
       return !(this.canBuy ||
         this.isBought ||
         this.isCapped ||
-        (this.galaxyGenerator && this.config.currencyLabel !== "Galaxy")
+        (this.galaxyGenerator && this.config.currencyLabel !== "Continuum Shard")
       );
     },
     shouldEstimateImprovement() {
@@ -96,10 +96,10 @@ export default {
       this.galaxyCap = GalaxyGenerator.generationCap;
       const genDB = GameDatabase.celestials.pelle.galaxyGeneratorUpgrades;
       this.notAffordable = (this.config === genDB.additive || this.config === genDB.multiplicative) &&
-        (Decimal.gt(this.upgrade.cost, this.galaxyCap - GalaxyGenerator.generatedGalaxies + player.galaxies));
+        (Decimal.gt(this.upgrade.cost, this.galaxyCap - GalaxyGenerator.generatedGalaxies + 100));
     },
     secondsUntilCost(rate) {
-      const value = this.galaxyGenerator ? player.galaxies + GalaxyGenerator.galaxies : Currency.realityShards.value;
+      const value = this.galaxyGenerator ? 100 + GalaxyGenerator.galaxies : Currency.realityShards.value;
       return Decimal.sub(this.upgrade.cost, value).div(rate);
     },
   }

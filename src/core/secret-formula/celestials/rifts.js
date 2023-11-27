@@ -62,7 +62,7 @@ export const pelleRifts = {
     effect: totalFill => (PelleRifts.chaos.milestones[0].canBeApplied
       ? Decimal.sqrt(2000 + 1) : Decimal.sqrt(totalFill.plus(1).log10() + 1)),
     currency: () => Currency.replicanti,
-    galaxyGeneratorThreshold: 1e7,
+    galaxyGeneratorThreshold: 1e5,
     milestones: [
       {
         resource: "decay",
@@ -92,7 +92,7 @@ export const pelleRifts = {
         formatEffect: x => `Max RG count +${formatInt(x)}`
       },
     ],
-    galaxyGeneratorText: "There's not enough antimatter to form new Galaxies, you need to reverse the $value"
+    galaxyGeneratorText: "There's not enough antimatter to form new Continuum, you need to reverse the $value"
   },
   chaos: {
     id: 3,
@@ -120,7 +120,7 @@ export const pelleRifts = {
         player.celestials.pelle.rifts.decay.percentageSpent += spent;
       }
     }),
-    galaxyGeneratorThreshold: 1e9,
+    galaxyGeneratorThreshold: 1e6,
     milestones: [
       {
         resource: "chaos",
@@ -139,7 +139,7 @@ export const pelleRifts = {
         description: () => `You gain ${formatPercents(0.01)} of your EP gained on Eternity per second`,
       },
     ],
-    galaxyGeneratorText: "Your Galaxies are too fragmented, you must stabilize the $value"
+    galaxyGeneratorText: "Your Continuum is too fragmented, you must stabilize the $value"
   },
   recursion: {
     id: 4,
@@ -153,7 +153,7 @@ export const pelleRifts = {
     percentageToFill: percentage => Decimal.pow(10, percentage ** 2.5 * 4000).minus(1),
     effect: totalFill => new Decimal(58 * totalFill.plus(1).log10() ** 0.2 / 4000 ** 0.2),
     currency: () => Currency.eternityPoints,
-    galaxyGeneratorThreshold: 1e10,
+    galaxyGeneratorThreshold: 1e7,
     milestones: [
       {
         resource: "recursion",
@@ -173,10 +173,10 @@ export const pelleRifts = {
       {
         resource: "recursion",
         requirement: 1,
-        description: "Permanently unlock the Galaxy Generator",
+        description: "Permanently unlock the Continuum Generator",
       },
     ],
-    galaxyGeneratorText: "Creating more Galaxies is unsustainable, you must focus the $value to allow more"
+    galaxyGeneratorText: "Creating more Continuum is unsustainable, you must focus the $value to allow more"
   },
   paradox: {
     id: 5,
@@ -190,7 +190,7 @@ export const pelleRifts = {
     percentageToFill: percentage => Decimal.pow10(percentage * 100).minus(1),
     effect: totalFill => new Decimal(1 + totalFill.plus(1).log10() * 0.004),
     currency: () => Currency.dilatedTime,
-    galaxyGeneratorThreshold: 1e5,
+    galaxyGeneratorThreshold: 1e4,
     milestones: [
       {
         resource: "paradox",

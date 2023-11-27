@@ -1920,8 +1920,8 @@ export const celestialNavigation = {
       alwaysShowLegend: true,
       legend: {
         text: () => [
-          "Galaxy Generator:",
-          `${format(GalaxyGenerator.generatedGalaxies, 2)} / ${format(GalaxyGenerator.generationCap, 2)} Galaxies`
+          "Continuum Generator:",
+          `${formatPercents(GalaxyGenerator.generatedGalaxies/100, 2)} / ${formatPercents(GalaxyGenerator.generationCap/100, 2)} Continuum`
         ],
         angle: 290,
         diagonal: 40,

@@ -66,7 +66,7 @@ export default {
         if (PelleRifts.recursion.milestones[2].canBeApplied || GalaxyGenerator.spentGalaxies > 0) {
           setProgress(Currency.infinityPoints.value, Tesseracts.nextCost, "Percentage to next Tesseract");
         } else if (PelleStrikes.dilation.hasStrike) {
-          setProgress(Currency.eternityPoints.value, DC.E4000, "Percentage to Galaxy Generator");
+          setProgress(Currency.eternityPoints.value, DC.E4000, "Percentage to Continuum Generator");
         } else if (PelleStrikes.ECs.hasStrike) {
           setLinearProgress(
             (Math.min(Currency.timeTheorems.max.toNumber() / 12900, 1) +

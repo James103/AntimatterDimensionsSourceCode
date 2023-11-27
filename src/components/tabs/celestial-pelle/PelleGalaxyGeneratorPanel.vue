@@ -33,8 +33,8 @@ export default {
       return GalaxyGeneratorUpgrades.all;
     },
     galaxyText() {
-      let text = format(Math.max(this.galaxies, 0), 2);
-      if (this.galaxies < 0) text += ` [${format(this.galaxies, 2)}]`;
+      let text = formatPercents(Math.max(this.galaxies, 0)/100, 2);
+      if (this.galaxies < 0) text += ` [${formatPercents(this.galaxies/100, 2)}]`;
       return text;
     },
     sacrificeText() {
@@ -50,7 +50,7 @@ export default {
       this.isCapped = GalaxyGenerator.isCapped;
       this.isCollapsed = player.celestials.pelle.collapsed.galaxies && !this.isCapped;
       if (this.isCollapsed || !this.isUnlocked) return;
-      this.galaxies = player.galaxies + GalaxyGenerator.galaxies;
+      this.galaxies = 100 + GalaxyGenerator.galaxies;
       this.generatedGalaxies = GalaxyGenerator.generatedGalaxies;
       this.galaxiesPerSecond = GalaxyGenerator.gainPerSecond;
       this.cap = GalaxyGenerator.generationCap;
@@ -82,7 +82,7 @@ export default {
         class="c-collapse-icon-clickable"
         @click="toggleCollapse"
       />
-      Galaxy Generator
+      Continuum Generator
     </div>
     <div
       v-if="!isCollapsed"
@@ -92,8 +92,8 @@ export default {
         <div>
           You have a total of
           <span class="c-galaxies-amount">{{ galaxyText }}</span>
-          Galaxies.
-          <span class="c-galaxies-amount">+{{ format(galaxiesPerSecond, 2, 1) }}/s</span>
+          Continuum.
+          <span class="c-galaxies-amount">+{{ formatPercents(galaxiesPerSecond/100, 2) }}/s</span>
         </div>
         <div>
           <button
@@ -130,7 +130,7 @@ export default {
               v-else
               class="c-increase-cap-text c-medium-text"
             >
-              {{ format(generatedGalaxies, 2) }} / {{ format(cap, 2) }} Galaxies generated
+              {{ formatPercents(generatedGalaxies/100, 2) }} / {{ formatPercents(cap/100, 2) }} Continuum generated
             </div>
           </button>
         </div>
@@ -148,7 +148,7 @@ export default {
         class="c-generator-unlock-button"
         @click="unlock"
       >
-        Unlock the Galaxy Generator
+        Unlock the Continuum Generator
       </button>
     </div>
   </div>
@@ -166,7 +166,7 @@ export default {
 }
 
 .c-generator-unlock-button {
-  width: 25rem;
+  width: 28rem;
   height: 10rem;
   font-family: Typewriter;
   font-size: 2rem;

@@ -469,11 +469,11 @@ Currency.replicanti = new class extends DecimalCurrency {
 
 Currency.galaxyGeneratorGalaxies = new class extends NumberCurrency {
   get value() {
-    return player.galaxies + GalaxyGenerator.galaxies;
+    return 100 + GalaxyGenerator.galaxies;
   }
 
   set value(value) {
-    const spent = player.galaxies + GalaxyGenerator.galaxies - value;
+    const spent = 100 + GalaxyGenerator.galaxies - value;
     player.celestials.pelle.galaxyGenerator.spentGalaxies += spent;
   }
 }();

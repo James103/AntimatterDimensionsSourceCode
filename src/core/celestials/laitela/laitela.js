@@ -45,7 +45,7 @@ export const Laitela = {
     }
   },
   get matterExtraPurchaseFactor() {
-    if (Pelle.isDoomed) return 1;
+    if (Pelle.isDoomed) return Math.max(1, GalaxyGenerator.galaxies + 100) / 100;
     const factor = (1 + 0.5 * Math.pow(Decimal.pLog10(Currency.darkMatter.max) / 50, 0.4) *
       (1 + SingularityMilestone.continuumMult.effectOrDefault(0)));
     if (NormalChallenge(9).isRunning) return factor * 0.9;

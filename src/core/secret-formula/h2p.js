@@ -1817,21 +1817,21 @@ In addition, each Rift offers three milestone rewards for filling them up to a c
       tags: ["reality", "antimatter", "lategame", "endgame", "final", "pelle", "strike", "rift", "celestial"],
       tab: "celestials/pelle"
     }, {
-      name: "The Galaxy Generator",
+      name: "The Continuum Generator",
       info: () => `
-When you reach ${formatInt(100)}% Recursion/Dispersion/Destruction, you unlock the <b>Galaxy Generator</b>, which can
-passively generate Galaxies. Generated Galaxies are like Replicanti Galaxies and Tachyon Galaxies in that they affect
-tickspeed as if they were Antimatter Galaxies, but they do not increase the cost of your next Antimatter Galaxy. You
-also unlock five new upgrades. The first upgrade increases the base amount of Galaxies generated. The other four
-upgrades then give a multiplier to this base amount. The first two upgrades can be bought by spending antimatter and
-Generated Galaxies. Replicanti or Tachyon Galaxies cannot be spent for purchasing those upgrades.
+When you reach ${formatInt(100)}% Recursion/Dispersion/Destruction, you unlock the <b>Continuum Generator</b>, which can
+passively generate Continuum purchases. Generated Continuum purchases are like regular Continuum purchases in that they
+increase the multipliers on your Antimatter Dimensions, but they do not increase the cost of your Antimatter Dimensions. You
+also unlock five new upgrades. The first upgrade increases the base amount of Continuum generated. The other four
+upgrades then give a multiplier to this base amount. The first two upgrades can be bought by spending Generated Continuum.
+Antimatter, Replicanti or Tachyon Galaxies cannot be spent for purchasing those upgrades.
 <br>
 <br>
-The <b>Galaxy Generator</b> has a maximum number of Galaxies it can generate, which can only be increased by draining
+The <b>Continuum Generator</b> has a maximum multiplier to Continuum it can generate, which can only be increased by draining
 Rifts once the current cap has been reached.`,
       isUnlocked: () => Pelle.hasGalaxyGenerator,
       tags: ["reality", "antimatter", "lategame", "endgame", "final", "pelle", "galaxy",
-        "galaxies", "generator", "celestial"],
+        "galaxies", "continuum", "generator", "celestial"],
       tab: "celestials/pelle"
     }
   ]
