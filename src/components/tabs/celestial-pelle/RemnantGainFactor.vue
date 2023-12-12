@@ -73,9 +73,6 @@ export default {
                 Static power
               </div>
               <div class="l-remnant-factors-item">
-                Existing Remnants
-              </div>
-              <div class="l-remnant-factors-item">
                 Final amount
               </div>
             </div>
@@ -93,19 +90,16 @@ export default {
               <div class="l-remnant-factors-item">
                 ^
               </div>
-              <div class="l-remnant-factors-item">
-                -
-              </div>
             </div>
             <div class="l-remnant-factors-col">
               <div class="l-remnant-factors-item">
                 {{ format(Math.log10(best.am.add(1).log10()*dilationMult[0] + 2), 2, 2) }}
               </div>
               <div class="l-remnant-factors-item">
-                {{ format(Math.log10(best.ip.add(1).log10()*dilationMult[0] + 2), 2, 2) }}
+                {{ format(Math.log10(best.ip.add(1).log10()*dilationMult[1] + 2), 2, 2) }}
               </div>
               <div class="l-remnant-factors-item">
-                {{ format(Math.log10(best.ep.add(1).log10()*dilationMult[0] + 2), 2, 2) }}
+                {{ format(Math.log10(best.ep.add(1).log10()*dilationMult[2] + 2), 2, 2) }}
               </div>
               <div class="l-remnant-factors-item">
                 {{ format(1.64, 2, 2) }}
@@ -114,10 +108,7 @@ export default {
                 {{ format(7.5, 2, 2) }}
               </div>
               <div class="l-remnant-factors-item">
-                {{ format(remnants, 2, 0) }}
-              </div>
-              <div class="l-remnant-factors-item">
-                {{ format(remnantsGain, 2, remnantsGain >= 1 ? 0 : 2) }}
+                {{ format(remnants, 2, 2) }}
               </div>
             </div>
           </div>

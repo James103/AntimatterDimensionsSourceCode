@@ -71,6 +71,10 @@ function bigCrunchGiveRewards() {
 
   bigCrunchTabChange(!PlayerProgress.infinityUnlocked());
   bigCrunchCheckUnlocks();
+
+  if (Pelle.isDoomed && Pelle.canArmageddon) {
+    player.celestials.pelle.remnants += Pelle.remnantsGain;
+  }
 }
 
 function bigCrunchUpdateStatistics() {

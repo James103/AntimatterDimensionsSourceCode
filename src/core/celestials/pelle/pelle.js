@@ -149,7 +149,7 @@ export const Pelle = {
   },
 
   get canArmageddon() {
-    return this.remnantsGain >= 1;
+    return this.remnantsGain > 0;
   },
 
   armageddon(gainStuff) {
@@ -170,6 +170,9 @@ export const Pelle = {
     if (this.isDoomed) {
       Currency.realityShards.add(this.realityShardGainPerSecond.times(diff).div(1000));
       PelleRifts.all.forEach(r => r.fill(diff));
+      if (this.canArmageddon) {
+        this.cel.remnants += this.remnantsGain;
+      }
     }
   },
 
@@ -294,7 +297,7 @@ export const Pelle = {
       (Math.log10(am + 2) + Math.log10(ip + 2) + Math.log10(ep + 2)) / 1.64
     ) ** 7.5;
 
-    return gain < 1 ? gain : Math.floor(gain - this.cel.remnants);
+    return gain - this.cel.remnants;
   },
 
   realityShardGain(remnants) {

@@ -52,6 +52,10 @@ function giveEternityRewards(auto) {
     EffarigUnlock.eternity.unlock();
     beginProcessReality(getRealityProps(true));
   }
+
+  if (Pelle.isDoomed && Pelle.canArmageddon) {
+    player.celestials.pelle.remnants += Pelle.remnantsGain;
+  }
 }
 
 export function eternityAnimation() {

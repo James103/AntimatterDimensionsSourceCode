@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     remnants() {
-      return format(this.remnantsGain, 2, this.remnantsGain > 1 ? 0 : 2);
+      return format(this.remnantsGain, 2, 2);
     },
     buttonClassObject() {
       return {
@@ -32,10 +32,9 @@ export default {
   },
   methods: {
     update() {
-      this.remnantsGain = Pelle.remnantsGain;
+      this.remnantsGain = player.celestials.pelle.remnants;
       this.realityShardGain.copyFrom(Pelle.realityShardGainPerSecond);
       this.nextRealityShardGain.copyFrom(Pelle.nextRealityShardGain);
-      this.canArmageddon = Pelle.canArmageddon;
     },
     manualArmageddon() {
       if (!this.canArmageddon) return;
@@ -54,14 +53,13 @@ export default {
   >
     <span v-if="isHeader">You cannot escape a Doomed Reality!<br></span>
     <span class="c-remnant-gain-display">
-      Armageddon for
+      You have
       <span class="c-remnant-gain">{{ remnants }}</span>
-      Remnants
+      Remnants.
     </span>
     <br>
     Reality Shards
-    <span class="c-reality-shard-gain">{{ format(realityShardGain, 2, 2) }}</span>/s ➜
-    <span class="c-reality-shard-gain">{{ format(nextRealityShardGain, 2, 2) }}</span>/s
+    <span class="c-reality-shard-gain">{{ format(realityShardGain, 2, 2) }}</span>/s
   </button>
 </template>
 
