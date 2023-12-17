@@ -1479,11 +1479,6 @@ ${VUnlocks.vAchievementUnlock.isUnlocked
       - Each V-Achievement also gives you one Space Theorem.
       <br>
       <br>
-      The goal reduction unlocked by having ${formatInt(2)} V-Achievements allows you to make some V-Achievement
-      requirements easier to complete by spending Perk Points, down to a limit of whatever the easiest tier requires.
-      The cost of reducing a goal does not increase as it is used, and will also reduce future tiers as well.
-      <br>
-      <br>
       Space Theorems allow you to purchase Time Studies which are normally forbidden, such as multiple paths in the
       Pace Split after the improved IP formula, or both Time Studies within a dark/light pair near the bottom.
       Like Time Theorems, they are freely given back every time you respec your studies.

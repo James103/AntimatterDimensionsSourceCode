@@ -22,43 +22,12 @@ class VRunUnlockState extends GameMechanicState {
   }
 
   get conditionBaseValue() {
-    const value = this.config.values[this.completions];
-    return value === undefined ? this.config.values[this.completions - 1] : value;
-  }
-
-  get canBeReduced() {
-    return this.completions < this.config.values.length && this.completions !== 0 &&
-      new Decimal(this.reduction).neq(this.config.maxShardReduction(this.conditionBaseValue));
-  }
-
-  get isReduced() {
-    if (player.celestials.v.goalReductionSteps[this.id] === 0) return false;
-    return (VUnlocks.shardReduction.canBeApplied && this.reduction > 0);
-  }
-
-  get reductionCost() {
-    const stepCount = this.config.reductionStepSize ? this.config.reductionStepSize : 1;
-    if (this.config.isHard) {
-      // The numbers come from inside of nextHardReductionCost, this is an effective bulk-buy factor
-      const modifiedStepCount = (Math.pow(1.15, stepCount) - 1) / 0.15;
-      return modifiedStepCount * V.nextHardReductionCost(player.celestials.v.goalReductionSteps[this.id]);
-    }
-    return stepCount * V.nextNormalReductionCost();
-  }
-
-  get tiersReduced() {
-    return player.celestials.v.goalReductionSteps[this.id] / 100;
-  }
-
-  get reduction() {
-    const value = this.conditionBaseValue;
-    return Math.clamp(this.config.shardReduction(this.tiersReduced), 0, this.config.maxShardReduction(value));
+    const value = this.config.values[Math.floor(this.completions)];
+    return value === undefined ? this.config.values[Math.floor(this.completions - 1)] : value;
   }
 
   get conditionValue() {
     let value = this.conditionBaseValue;
-    if (!this.isReduced) return value;
-    value -= this.reduction;
     return value;
   }
 
@@ -78,6 +47,27 @@ class VRunUnlockState extends GameMechanicState {
       playerData.runGlyphs[this.id] = Glyphs.copyForRecords(Glyphs.active.filter(g => g !== null));
     }
 
+    if (!V.isFlipped && this.config.isHard) return;
+    const oldCompletions = this.completions;
+    const newCompletions = Math.min(this.config.continuumValue(playerData.runRecords[this.id]), this.config.values.length);
+    if (newCompletions > oldCompletions) {
+      this.completions = newCompletions;
+      if (Math.floor(newCompletions) > Math.floor(oldCompletions)) {
+        GameUI.notify.success(`You have unlocked V-Achievement
+          '${this.config.name}' tier ${formatInt(Math.floor(newCompletions))}`);
+      }
+
+      V.updateTotalRunUnlocks()
+
+      for (const quote of V.quotes.all) {
+        // Quotes without requirements will be shown in other ways
+        if (quote.requirement) {
+          quote.show();
+        }
+      }
+    }
+
+    /*
     while (this.completions < this.config.values.length &&
     Decimal.gte(playerData.runRecords[this.id], this.conditionValue)) {
       if (!V.isFlipped && this.config.isHard) continue;
@@ -94,6 +84,7 @@ class VRunUnlockState extends GameMechanicState {
         }
       }
     }
+    */
   }
 }
 
@@ -208,7 +199,7 @@ export const V = {
     this.spaceTheorems = 0;
   },
   get availableST() {
-    return V.spaceTheorems - player.celestials.v.STSpent;
+    return Math.floor(V.spaceTheorems) - player.celestials.v.STSpent;
   },
   get isRunning() {
     return player.celestials.v.run;
@@ -218,12 +209,6 @@ export const V = {
   },
   get isFullyCompleted() {
     return this.spaceTheorems >= 66;
-  },
-  nextNormalReductionCost() {
-    return 1000;
-  },
-  nextHardReductionCost(currReductionSteps) {
-    return 1000 * Math.pow(1.15, currReductionSteps);
   },
   quotes: Quotes.v,
   symbol: "⌬"

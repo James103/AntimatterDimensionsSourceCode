@@ -19,7 +19,6 @@ export default {
       canUnlockCelestial: false,
       totalUnlocks: 0,
       pp: 0,
-      showReduction: false,
       runRecords: [],
       runGlyphs: [],
       isFlipped: false,
@@ -67,7 +66,6 @@ export default {
     runMilestones() {
       return [
         [
-          VUnlocks.shardReduction,
           VUnlocks.adPow,
           VUnlocks.fastAutoEC
         ],
@@ -98,7 +96,6 @@ export default {
       this.canUnlockCelestial = V.canUnlockCelestial;
       this.totalUnlocks = V.spaceTheorems;
       this.pp = Currency.perkPoints.value;
-      this.showReduction = VUnlocks.shardReduction.isUnlocked;
       this.runRecords = Array.from(player.celestials.v.runRecords);
       this.runGlyphs = player.celestials.v.runGlyphs.map(gList => Glyphs.copyForRecords(gList));
       this.isFlipped = V.isFlipped;
@@ -115,14 +112,6 @@ export default {
     },
     has(info) {
       return info.isUnlocked;
-    },
-    mode(hex) {
-      return hex.config.mode === V_REDUCTION_MODE.SUBTRACTION ? "reduced" : "divided";
-    },
-    reductionValue(hex) {
-      return hex.config.mode === V_REDUCTION_MODE.SUBTRACTION
-        ? formatInt(hex.reduction)
-        : format(Decimal.pow10(hex.reduction));
     },
     showRecord(hex) {
       return this.runRecords[hex.id] > 0 || hex.completions > 0;
@@ -209,14 +198,6 @@ export default {
         <br><br>
         Each Hard V-Achievement counts as two V-Achievements and will award {{ formatInt(2) }} Space Theorems
         instead of {{ formatInt(1) }}.
-        <br>
-        Goal reduction is significantly more expensive for Hard V-Achievements.
-      </div>
-      <div
-        v-if="showReduction"
-        class="c-v-info-text"
-      >
-        You have {{ quantify("Perk Point", pp, 2, 0) }}.
       </div>
       <div class="l-v-unlocks-container">
         <li
@@ -230,20 +211,14 @@ export default {
             :style="'background-color: ' + hexColor(hex)"
           >
             <p class="o-v-unlock-name">
-              <br v-if="hex.canBeReduced && showReduction">{{ hex.config.name }}
+              {{ hex.config.name }}
             </p>
             <p
               class="o-v-unlock-desc"
               v-html="hex.formattedDescription"
             />
-            <p
-              v-if="has(runMilestones[0][0]) && hex.isReduced"
-              class="o-v-unlock-goal-reduction"
-            >
-              Goal has been {{ mode(hex) }} by {{ reductionValue(hex) }}
-            </p>
             <p class="o-v-unlock-amount">
-              {{ formatInt(hex.completions) }}/{{ formatInt(hex.config.values.length) }} done
+              {{ formatFloat(hex.completions, 2) }}/{{ formatInt(hex.config.values.length) }} done
             </p>
             <div v-if="showRecord(hex)">
               <p class="o-v-unlock-record">
@@ -256,17 +231,6 @@ export default {
                   :text-hidden="true"
                 />
               </p>
-              <div v-if="hex.canBeReduced && showReduction">
-                <div class="l-v-goal-reduction-spacer" />
-                <button
-                  class="o-primary-btn l-v-reduction"
-                  :class="{ 'o-primary-btn--disabled': !hex.canBeReduced || pp < hex.reductionCost }"
-                  :ach-tooltip="reductionTooltip(hex)"
-                  @click="reduceGoals(hex)"
-                >
-                  <i class="fas fa-angle-double-down" />
-                </button>
-              </div>
             </div>
           </div>
           <div
@@ -300,7 +264,7 @@ export default {
         and re-entering the Reality.
       </div>
       <div class="c-v-info-text">
-        You have {{ formatInt(totalUnlocks) }} V-Achievements done.
+        You have {{ formatFloat(totalUnlocks, 2) }} V-Achievements done.
         <span v-if="!isDoomed">
           You gain {{ formatInt(1) }} Space Theorem for each completion,
           allowing you to purchase Time Studies which are normally locked.

@@ -71,9 +71,8 @@ export const v = {
       values: [-5, -4, -3, -2, -1, 0],
       condition: () => V.isRunning && TimeStudy.reality.isBought,
       currentValue: () => -Glyphs.activeWithoutCompanion.length,
+      continuumValue: x => Math.max(0, 6 + x),
       formatRecord: x => (x >= -5 ? formatInt(-x) : "Not reached"),
-      shardReduction: () => 0,
-      maxShardReduction: () => 0,
       mode: V_REDUCTION_MODE.SUBTRACTION
     },
     {
@@ -83,10 +82,8 @@ export const v = {
       values: [4000, 4300, 4600, 4900, 5200, 5500],
       condition: () => V.isRunning,
       currentValue: () => Replicanti.galaxies.total + player.galaxies + player.dilation.totalTachyonGalaxies,
+      continuumValue: x => Math.max(0, x - 3700) / 300,
       formatRecord: x => formatInt(x),
-      shardReduction: tiers => Math.floor(300 * tiers),
-      maxShardReduction: goal => goal - 4000,
-      perReductionStep: 3,
       mode: V_REDUCTION_MODE.SUBTRACTION
     },
     {
@@ -96,10 +93,8 @@ export const v = {
       values: [6e5, 7.2e5, 8.4e5, 9.6e5, 1.08e6, 1.2e6],
       condition: () => V.isRunning && EternityChallenge(7).isRunning,
       currentValue: () => Currency.infinityPoints.value.log10(),
+      continuumValue: x => Math.max(0, x - 4.8e5) / 1.2e5,
       formatRecord: x => format(Decimal.pow10(x), 2),
-      shardReduction: tiers => 1.2e5 * tiers,
-      maxShardReduction: goal => goal - 6e5,
-      perReductionStep: DC.E1200,
       mode: V_REDUCTION_MODE.DIVISION
     },
     {
@@ -107,13 +102,11 @@ export const v = {
       name: "Young Boy",
       description: value => `Get ${format(Decimal.pow10(value))} Antimatter in Eternity Challenge 12 without
         unlocking Time Dilation.`,
-      values: [400e6, 450e6, 500e6, 600e6, 700e6, 800e6],
+      values: [300e6, 400e6, 500e6, 600e6, 700e6, 800e6],
       condition: () => V.isRunning && EternityChallenge(12).isRunning && !PlayerProgress.dilationUnlocked(),
       currentValue: () => Currency.antimatter.value.log10(),
+      continuumValue: x => Math.max(0, x - 200e6) / 100e6,
       formatRecord: x => format(Decimal.pow10(x)),
-      shardReduction: tiers => 50e6 * tiers,
-      maxShardReduction: goal => goal - 400e6,
-      perReductionStep: DC.E500000,
       mode: V_REDUCTION_MODE.DIVISION
     },
     {
@@ -123,10 +116,8 @@ export const v = {
       values: [7000, 7600, 8200, 8800, 9400, 10000],
       condition: () => V.isRunning,
       currentValue: () => Currency.eternityPoints.value.log10(),
+      continuumValue: x => Math.max(0, x - 6400) / 600,
       formatRecord: x => format(Decimal.pow10(x), 2),
-      shardReduction: tiers => 600 * tiers,
-      maxShardReduction: goal => goal - 7000,
-      perReductionStep: 1e6,
       mode: V_REDUCTION_MODE.DIVISION
     },
     {
@@ -136,11 +127,8 @@ export const v = {
       values: [51, 52, 53, 54, 55, 56],
       condition: () => V.isRunning && player.dilation.active && EternityChallenge(5).isRunning,
       currentValue: () => DimBoost.purchasedBoosts,
+      continuumValue: x => Math.max(0, x - 50),
       formatRecord: x => formatInt(x),
-      shardReduction: tiers => Math.floor(tiers),
-      maxShardReduction: () => 5,
-      reductionStepSize: 100,
-      perReductionStep: 1,
       mode: V_REDUCTION_MODE.SUBTRACTION
     },
     {
@@ -151,9 +139,8 @@ export const v = {
       values: [1, 4, 7, 10, 13],
       condition: () => V.isRunning && TimeStudy.reality.isBought,
       currentValue: () => -player.requirementChecks.reality.maxGlyphs,
+      continuumValue: x => Math.max(0, 2 + x) / 3,
       formatRecord: x => formatInt(-x),
-      shardReduction: () => 0,
-      maxShardReduction: () => 0,
       mode: V_REDUCTION_MODE.SUBTRACTION,
       isHard: true
     },
@@ -169,11 +156,8 @@ export const v = {
         Currency.timeTheorems.gte(400000)
           ? -Math.log10(player.requirementChecks.reality.slowestBH)
           : 0),
+      continuumValue: x => Math.max(0, x - 50) / 50,
       formatRecord: x => `${formatInt(1)} / ${format(Math.pow(10, x))}`,
-      shardReduction: tiers => 50 * tiers,
-      maxShardReduction: goal => goal - 50,
-      reductionStepSize: 2,
-      perReductionStep: 10,
       mode: V_REDUCTION_MODE.DIVISION,
       isHard: true
     },
@@ -181,13 +165,11 @@ export const v = {
       id: 8,
       name: "Shutter Glyph",
       description: value => `Reach a Glyph of level ${formatInt(value)}.`,
-      values: [6500, 7000, 8000, 9000, 10000],
+      values: [6000, 7000, 8000, 9000, 10000],
       condition: () => V.isRunning,
       currentValue: () => gainedGlyphLevel().actualLevel,
+      continuumValue: x => Math.max(0, x - 5000) / 1000,
       formatRecord: x => formatInt(x),
-      shardReduction: tiers => Math.floor(500 * tiers),
-      maxShardReduction: () => 500,
-      perReductionStep: 5,
       mode: V_REDUCTION_MODE.SUBTRACTION,
       isHard: true
     }
@@ -209,7 +191,7 @@ export const v = {
       id: 2,
       reward: "Antimatter Dimension power based on total Space Theorems.",
       description: () => `Have ${formatInt(5)} V-Achievements`,
-      effect: () => 1 + Math.sqrt(V.spaceTheorems) / 100,
+      effect: () => 1 + Math.sqrt(Math.min(V.spaceTheorems, 66)) / 100,
       format: x => formatPow(x, 3, 3),
       requirement: () => V.spaceTheorems >= 5
     },
