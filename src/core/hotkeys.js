@@ -565,6 +565,8 @@ function testKonami(character) {
     SecretAchievement(17).unlock();
     Currency.antimatter.bumpTo(30);
     Speedrun.startTimer();
+    Achievement(11).unlock();
+    Tutorial.turnOffEffect(TUTORIAL_STATE.DIM1);
   }
 }
 
