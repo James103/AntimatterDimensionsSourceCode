@@ -559,6 +559,7 @@ export function gameLoop(passDiff, options = {}) {
 
   if (Perk.autocompleteEC1.canBeApplied) player.reality.lastAutoEC += realDiff;
 
+  NormalChallenge(9).tryFail();
   EternityChallenge(12).tryFail();
   Achievements._power.invalidate();
 

@@ -92,12 +92,16 @@ export const normalChallenges = [
     reward: "Upgradeable 8th Antimatter Dimension Autobuyer",
     lockedAt: DC.D0,
   },
+  // Changed! Inspired by Antimatter Dimensions Roguelike and one of FE000000's Normal Challenges
   {
     id: 9,
     legacyId: 5,
-    isQuickResettable: true,
-    description: () => `whenever you buy Tickspeed upgrades or ${formatInt(10)} of an Antimatter Dimension, ` +
-      "everything else of equal cost will increase to its next cost step.",
+    isQuickResettable: false,
+    description: () => `you can only purchase Antimatter Dimensions and Tickspeed Upgrades ${formatInt(500)} times.
+      Every ${formatX(10)} increase in total Antimatter past ${format(1e10)} gives you
+      50 extra purchases. If you run out of purchases, you will fail the Challenge.`,
+    checkRestriction: () => (player.chall9Purchases <= NormalChallenge(9).config.maxPurchases()),
+    maxPurchases: () => Math.floor(Math.max(player.records.thisInfinity.maxAM.log10() * 50, 500)),
     name: "Tickspeed Autobuyer",
     reward: "Upgradeable Tickspeed Autobuyer",
     lockedAt: DC.D0,

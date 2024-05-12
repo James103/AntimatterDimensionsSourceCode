@@ -78,7 +78,7 @@ export const secretAchievements = [
     id: 26,
     name: "You're a failure",
     get description() {
-      return `Fail Eternity Challenges ${formatInt(10)} times without refreshing.
+      return `Fail Challenges ${formatInt(10)} times without refreshing.
       What are you doing with your life...`;
     },
     checkRequirement: (function() {

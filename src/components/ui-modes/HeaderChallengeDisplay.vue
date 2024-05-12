@@ -1,11 +1,13 @@
 <script>
 import FailableEcText from "./FailableEcText";
+import FailableNcText from "./FailableNcText";
 import PrimaryButton from "@/components/PrimaryButton";
 
 export default {
   name: "HeaderChallengeDisplay",
   components: {
     FailableEcText,
+    FailableNcText,
     PrimaryButton
   },
   data() {
@@ -88,6 +90,9 @@ export default {
     },
     isInFailableEC() {
       return this.activeChallengeNames.some(str => str.match(/Eternity Challenge (4|12)/gu));
+    },
+    isInFailableNC() {
+      return this.activeChallengeNames.some(str => str === "Tickspeed Autobuyer Challenge");
     },
     challengeDisplay() {
       if (this.inPelle && this.activeChallengeNames.length > 0) {
@@ -204,6 +209,7 @@ export default {
       You are currently in {{ challengeDisplay }}
     </span>
     <FailableEcText v-if="isInFailableEC" />
+    <FailableNcText v-if="isInFailableNC" />
     <span class="l-padding-line" />
     <PrimaryButton
       v-if="showExit"

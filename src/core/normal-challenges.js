@@ -128,10 +128,35 @@ class NormalChallengeState extends GameMechanicState {
     GameCache.worstChallengeTime.invalidate();
   }
 
+  get isWithinRestriction() {
+    return this.config.checkRestriction === undefined ||
+      this.config.checkRestriction()
+  }
+
   exit() {
     player.challenge.normal.current = 0;
     bigCrunchReset(true, false);
     if (!Enslaved.isRunning) Tab.dimensions.antimatter.show();
+  }
+
+  fail() {
+    if (this.id === 9) {
+      Modal.message.show("You failed the Tickspeed Autobuyer Challenge due to " +
+      `purchasing more Dimensions and Tickspeed (${formatInt(player.chall9Purchases)}) ` +
+      `than your Antimatter allowed (${formatInt(NormalChallenge(9).config.maxPurchases())}), ` +
+      `which has caused you to exit it.`,
+      { closeEvent: GAME_EVENT.REALITY_RESET_AFTER }, 1);
+      this.exit();
+      EventHub.dispatch(GAME_EVENT.CHALLENGE_FAILED);
+    }
+  }
+
+  tryFail() {
+    if (this.isRunning && !this.isWithinRestriction) {
+      this.fail();
+      return true;
+    }
+    return false;
   }
 }
 

@@ -793,7 +793,7 @@ export const normalAchievements = [
   {
     id: 114,
     name: "You're a mistake",
-    description: "Fail an Eternity Challenge.",
+    description: "Fail any Challenge.",
     checkRequirement: () => true,
     checkEvent: GAME_EVENT.CHALLENGE_FAILED,
     reward: "A fading sense of accomplishment.",

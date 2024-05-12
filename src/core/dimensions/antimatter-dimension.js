@@ -214,6 +214,7 @@ export function buyOneDimension(tier) {
 
   dimension.amount = dimension.amount.plus(1);
   dimension.bought++;
+  player.chall9Purchases++;
 
   if (tier === 1) {
     Achievement(28).tryUnlock();
@@ -235,6 +236,7 @@ export function buyManyDimension(tier) {
   dimension.challengeCostBump();
   dimension.amount = dimension.amount.plus(dimension.remainingUntil10);
   dimension.bought += dimension.remainingUntil10;
+  player.chall9Purchases += dimension.remainingUntil10;
 
   onBuyDimension(tier);
 
@@ -253,6 +255,7 @@ export function buyAsManyAsYouCanBuy(tier) {
   dimension.challengeCostBump();
   dimension.amount = dimension.amount.plus(howMany);
   dimension.bought += howMany;
+  player.chall9Purchases += howMany;
 
   onBuyDimension(tier);
 
@@ -266,6 +269,7 @@ function buyUntilTen(tier) {
   dimension.challengeCostBump();
   dimension.amount = Decimal.round(dimension.amount.plus(dimension.remainingUntil10));
   dimension.bought += dimension.remainingUntil10;
+  player.chall9Purchases += dimension.remainingUntil10;
   onBuyDimension(tier);
 }
 
@@ -306,7 +310,7 @@ export function buyMaxDimension(tier, bulk = Infinity) {
   if (bulkLeft <= 0) return;
 
   // Buy in a while loop in order to properly trigger abnormal price increases
-  if (NormalChallenge(9).isRunning || InfinityChallenge(5).isRunning) {
+  if (InfinityChallenge(5).isRunning) {
     while (dimension.isAffordableUntil10 && dimension.cost.lt(goal) && bulkLeft > 0) {
       // We can use dimension.currencyAmount or Currency.antimatter here, they're the same,
       // but it seems safest to use dimension.currencyAmount for consistency.
@@ -328,6 +332,7 @@ export function buyMaxDimension(tier, bulk = Infinity) {
   if (buying > bulkLeft) buying = bulkLeft;
   dimension.amount = dimension.amount.plus(10 * buying).round();
   dimension.bought += 10 * buying;
+  player.chall9Purchases += 10 * buying;
   dimension.currencyAmount = dimension.currencyAmount.minus(Decimal.pow10(maxBought.logPrice));
 }
 
@@ -543,7 +548,6 @@ class AntimatterDimensionState extends DimensionState {
 
   challengeCostBump() {
     if (InfinityChallenge(5).isRunning) this.multiplyIC5Costs();
-    else if (NormalChallenge(9).isRunning) this.multiplySameCosts();
   }
 
   multiplySameCosts() {
