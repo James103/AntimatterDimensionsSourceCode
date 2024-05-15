@@ -6,6 +6,7 @@ import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 import SelectNotationDropdown from "@/components/tabs/options-visual/SelectNotationDropdown";
 import SelectThemeDropdown from "@/components/tabs/options-visual/SelectThemeDropdown";
 import SelectSidebarDropdown from "@/components/tabs/options-visual/SelectSidebarDropdown";
+import SelectBottomBarDropdown from "@/components/tabs/options-visual/SelectBottomBarDropdown";
 import UpdateRateSlider from "./UpdateRateSlider";
 
 export default {
@@ -18,18 +19,21 @@ export default {
     OpenModalHotkeysButton,
     SelectThemeDropdown,
     SelectNotationDropdown,
-    SelectSidebarDropdown
+    SelectSidebarDropdown,
+    SelectBottomBarDropdown
   },
   data() {
     return {
       theme: "",
       notation: "",
       sidebarResource: "",
+      bottomBarResource: "",
       headerTextColored: true,
     };
   },
   computed: {
     sidebarDB: () => GameDatabase.sidebarResources,
+    bottomBarDB: () => GameDatabase.bottomBarResources,
     themeLabel() {
       return `Theme: ${Themes.find(this.theme).displayName()}`;
     },
@@ -38,6 +42,9 @@ export default {
     },
     sidebarLabel() {
       return `Sidebar (Modern UI): ${this.sidebarResource}`;
+    },
+    bottomBarLabel() {
+      return `Progress Bar: ${this.bottomBarResource}`;
     },
     UILabel() {
       return `UI: ${this.$viewModel.newUI ? "Modern" : "Classic"}`;
@@ -56,6 +63,9 @@ export default {
       this.sidebarResource = player.options.sidebarResourceID === 0
         ? "Latest Resource"
         : this.sidebarDB.find(e => e.id === player.options.sidebarResourceID).optionName;
+      this.bottomBarResource = player.options.bottomBarResourceID === 0
+        ? "Latest Resource"
+        : this.bottomBarDB.find(e => e.id === player.options.bottomBarResourceID).optionName;
       this.headerTextColored = options.headerTextColored;
     },
   }
@@ -146,6 +156,17 @@ export default {
         >
           <template #dropdown>
             <SelectSidebarDropdown />
+          </template>
+        </ExpandingControlBox>
+      </div>
+      <div class="l-options-grid__row">
+        <ExpandingControlBox
+          class="l-options-grid__button c-options-grid__notations"
+          button-class="o-primary-btn o-primary-btn--option l-options-grid__notations-header"
+          :label="bottomBarLabel"
+        >
+          <template #dropdown>
+            <SelectBottomBarDropdown />
           </template>
         </ExpandingControlBox>
       </div>

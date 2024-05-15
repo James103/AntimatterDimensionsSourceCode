@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     update() {
-      this.sidebarID = player.options.sidebarResourceID;
+      this.sidebarID = player.options.bottomBarResourceID;
       this.resourceName = this.resource.resourceName ?? this.resource.optionName;
       this.resourceIcon = this.resource.icon ?? "?";
       this.resourceValue.copyFrom(this.resource.value());

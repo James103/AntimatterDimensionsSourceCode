@@ -778,6 +778,7 @@ window.player = {
       notation: 9
     },
     sidebarResourceID: 0,
+    bottomBarResourceID: 0,
     retryChallenge: false,
     retryCelestial: false,
     showAllChallenges: false,
