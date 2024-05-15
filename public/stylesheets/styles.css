@@ -461,7 +461,7 @@ button:focus {
   display: flex;
   width: 55.5rem;
   position: absolute;
-  bottom: 0;
+  bottom: 2rem;
   z-index: 2;
   align-items: flex-end;
   font-family: Typewriter, serif;

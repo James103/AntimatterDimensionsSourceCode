@@ -3,27 +3,47 @@ export default {
   name: "HealthDisplay",
   data() {
     return {
-      resourceStr: "1.000",
-      maxResourceStr: "1.000",
-      resourceDeltaStr: "± 0.000",
+      sidebarID: 0,
+      resourceName: "",
+      resourceValue: new Decimal(0),
       resourceIcon: "<i class='fas fa-heart'></i>",
-      progressStyle: `--hp-left: 0%`,
-      hover: false
+      progressStyle: `--hp-left: 0%`
     };
+  },
+  computed: {
+    resourceDB: () => GameDatabase.bottomBarResources,
+    numDBEntries() {
+      return this.resourceDB.length;
+    },
+    resource() {
+      // With "default" sorting, return the latest unlocked resource - otherwise, return the specified one
+      return this.sidebarID === 0
+        ? this.resourceDB.filter(e => e.isAvailable()).sort((a, b) => b.id - a.id)[0]
+        : this.resourceDB.find(e => e.id === this.sidebarID);
+    },
+    displayValue() {
+      // RM + iM seems to cause strange, undesirable linebreaks
+      return this.resource.formatValue(this.resourceValue);
+    }
   },
   methods: {
     update() {
-      this.resourceStr = format(1, 3, 3);
-      this.maxResourceStr = format(1, 3, 3);
-      const ratio = 1;
+      this.sidebarID = player.options.sidebarResourceID;
+      this.resourceName = this.resource.resourceName ?? this.resource.optionName;
+      this.resourceIcon = this.resource.icon ?? "?";
+      this.resourceValue.copyFrom(this.resource.value());
+      const ratio = Math.clamp(this.getResourceRatio(), 0, 1);
       this.progressStyle = `
         --filter: hue-rotate(-${(1 - ratio) * 100}deg) brightness(${1 + (1 - ratio) / 2});
         --hp-left: ${ratio * 100}%;
       `;
-
-      const delta = new Decimal(0);
-      const sign = ["-", "±", "+"][delta.sign() + 1];
-      this.resourceDeltaStr = `${sign} ${format(delta.abs(), 3, 3)}/s`;
+    },
+    getResourceRatio() {
+      if (this.resource.ratio) {
+        return +this.resource.ratio()
+      } else {
+        return this.resourceValue.log10() / Math.log10(Number.MAX_VALUE)
+      }
     }
   }
 };
@@ -36,10 +56,10 @@ export default {
   >
     <span class="health-display__nums">
       <span>
-        {{ resourceStr }} / {{ maxResourceStr }} ({{ resourceDeltaStr }})
+        {{ displayValue }} {{ resourceName }}
       </span>
     </span>
-    <b class="health-display-icon">{{ resourceIcon }}</b>
+    <b class="health-display-icon" v-html="resourceIcon"></b>
   </div>
 </template>
 
