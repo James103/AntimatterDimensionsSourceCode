@@ -2,6 +2,7 @@ import { multiplierTabTree, multiplierTabValues } from "./multiplier-tab";
 
 import { achievements } from "./achievements";
 import { awayProgressTypes } from "./away-progress-types";
+import { bottomBarResources } from "./bottom-bar-resources";
 import { catchupResources } from "./catchup-resources";
 import { celestials } from "./celestials";
 import { challenges } from "./challenges";
@@ -24,6 +25,7 @@ import { tabs } from "./tabs";
 export const GameDatabase = {
   achievements,
   awayProgressTypes,
+  bottomBarResources,
   catchupResources,
   celestials,
   challenges,
