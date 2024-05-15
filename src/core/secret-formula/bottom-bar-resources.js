@@ -49,6 +49,7 @@ export const bottomBarResources = [
   {
     id: 6,
     optionName: "Total TT",
+    resourceName: "total Time Theorems",
     isAvailable: () => PlayerProgress.eternityUnlocked(),
     value: () => player.timestudy.theorem.plus(TimeTheorems.calculateTimeStudiesCost()),
     ratio: () => player.timestudy.theorem.plus(TimeTheorems.calculateTimeStudiesCost()).div(12900).toNumber(),
@@ -57,6 +58,16 @@ export const bottomBarResources = [
   },
   {
     id: 7,
+    optionName: "EC completions",
+    resourceName: "total Eternity Challenge completions",
+    isAvailable: () => PlayerProgress.eternityUnlocked(),
+    value: () => new Decimal(EternityChallenges.completions),
+    ratio: () => EternityChallenges.completions / EternityChallenges.maxCompletions,
+    formatValue: x => formatInt(x) + "/" + formatInt(EternityChallenges.maxCompletions),
+    icon: "Δ",
+  },
+  {
+    id: 8,
     optionName: "Tachyon Particles",
     isAvailable: () => PlayerProgress.dilationUnlocked() || PlayerProgress.realityUnlocked(),
     value: () => Currency.tachyonParticles.value,
@@ -64,7 +75,7 @@ export const bottomBarResources = [
     icon: "<i class='fas fa-meteor' />",
   },
   {
-    id: 8,
+    id: 9,
     optionName: "Dilated Time",
     isAvailable: () => PlayerProgress.dilationUnlocked() || PlayerProgress.realityUnlocked(),
     value: () => Currency.dilatedTime.value,
@@ -72,7 +83,7 @@ export const bottomBarResources = [
     icon: "Ψ",
   },
   {
-    id: 9,
+    id: 10,
     optionName: "Reality Machines",
     isAvailable: () => PlayerProgress.realityUnlocked(),
     value: () => Currency.realityMachines.value,
@@ -81,7 +92,7 @@ export const bottomBarResources = [
     icon: "Ϟ",
   },
   {
-    id: 10,
+    id: 11,
     optionName: "Relic Shards",
     isAvailable: () => TeresaUnlocks.effarig.isUnlocked,
     value: () => new Decimal(Currency.relicShards.value),
@@ -89,7 +100,7 @@ export const bottomBarResources = [
     icon: "Ϙ",
   },
   {
-    id: 11,
+    id: 12,
     optionName: "V-Achievements",
     isAvailable: () => VUnlocks.vAchievementUnlock.isUnlocked,
     value: () => new Decimal(V.spaceTheorems),
@@ -98,7 +109,7 @@ export const bottomBarResources = [
     icon: "⌬",
   },
   {
-    id: 12,
+    id: 13,
     optionName: "Ra Memory Levels",
     resourceName: "total Celestial Memory Levels",
     isAvailable: () => Ra.isUnlocked,
@@ -108,7 +119,7 @@ export const bottomBarResources = [
     icon: "<i class='fas fa-sun' />",
   },
   {
-    id: 13,
+    id: 14,
     optionName: "All Machines",
     resourceName: "Machines",
     isAvailable: () => MachineHandler.isIMUnlocked,
@@ -119,7 +130,16 @@ export const bottomBarResources = [
     icon: "Ϟ<i class='far fa-lightbulb' />",
   },
   {
-    id: 14,
+    id: 15,
+    optionName: "Imaginary Machines",
+    isAvailable: () => MachineHandler.isIMUnlocked,
+    value: () => new Decimal(Currency.imaginaryMachines.value),
+    ratio: () => Math.log10(Currency.imaginaryMachines.value) / Math.log10(ImaginaryUpgrade(25).cost),
+    formatValue: x => format(x, 2),
+    icon: "<i class='far fa-lightbulb' />",
+  },
+  {
+    id: 16,
     optionName: "Dark Matter",
     isAvailable: () => Laitela.isUnlocked,
     value: () => Currency.darkMatter,
@@ -127,7 +147,7 @@ export const bottomBarResources = [
     icon: "ᛝ",
   },
   {
-    id: 15,
+    id: 17,
     optionName: "Dark Energy",
     isAvailable: () => Laitela.isUnlocked,
     value: () => new Decimal(Currency.darkEnergy.value),
@@ -136,7 +156,7 @@ export const bottomBarResources = [
     icon: "ᛝ",
   },
   {
-    id: 16,
+    id: 18,
     optionName: "Singularities",
     isAvailable: () => Laitela.isUnlocked,
     value: () => new Decimal(Currency.singularities.value),
@@ -145,7 +165,7 @@ export const bottomBarResources = [
     icon: "ᛝ",
   },
   {
-    id: 17,
+    id: 19,
     optionName: "Reality Shards",
     isAvailable: () => Pelle.isDoomed,
     value: () => Currency.realityShards,
